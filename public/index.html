@@ -1,0 +1,38 @@
+<html style='color: #2a2a2a'>
+  <body style='width: 500px; margin: 30px auto auto auto'>
+    <h1>CS 4145: Temperature Converter</h1>
+    <div style='margin: auto; width: 150px'>
+      <input type='number' id='value-input' style='width: 50px'></input>
+      <select id='unit-input' style='width: 90px'>
+        <option value='celcius'>Celcius</option>
+        <option value='farenheit'>Farenheit</option>
+      </select>
+    </div>
+    <button style='display: block; margin-top: 10px; height: 30px; width: 100%' id='convert-button'>CONVERT</button>
+    <div id='conversion-result' style='margin-top: 20px; text-align: center; font-size: 20px'></div>
+  </body>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(function() {
+      $('#convert-button').click(function() {
+        var value = $('#value-input').val();
+        var unit = $('#unit-input').val();
+        $.ajax({
+          type: "POST",
+          url: "http://localhost:8081",
+          data: JSON.stringify({ 'unit':unit, 'value': parseFloat(value) }),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function(data){
+            $('#conversion-result').text(data.value + " " + data.unit);
+          },
+          error: function(err){
+            $('#conversion-result').text("ERROR: " + err.status + " - " + err.statusText);
+          }
+        });
+      });
+    });
+  </script>
+
+</html>
