@@ -1,11 +1,11 @@
 <html style='color: #2a2a2a'>
   <body style='width: 500px; margin: 30px auto auto auto'>
     <h1>CS 4145: Temperature Converter</h1>
-    <div style='margin: auto; width: 150px'>
+    <div style='margin: auto; width: 250px'>
       <input type='number' id='value-input' style='width: 50px'></input>
-      <select id='unit-input' style='width: 90px'>
-        <option value='celcius'>Celcius</option>
-        <option value='farenheit'>Farenheit</option>
+      <select id='unit-input' style='width: 190px'>
+        <option value='celsius'>Celsius to Fahrenheit</option>
+        <option value='fahrenheit'>Fahrenheit to Celsius</option>
       </select>
     </div>
     <button style='display: block; margin-top: 10px; height: 30px; width: 100%' id='convert-button'>CONVERT</button>
@@ -20,12 +20,11 @@
         var unit = $('#unit-input').val();
         $.ajax({
           type: "POST",
-          url: "http://localhost:8081",
           data: JSON.stringify({ 'unit':unit, 'value': parseFloat(value) }),
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           success: function(data){
-            $('#conversion-result').text(data.value + " " + data.unit);
+            $('#conversion-result').text(data.value + " " + data.unit.substr(0,1).toUpperCase() + data.unit.substr(1,data.unit.length));
           },
           error: function(err){
             $('#conversion-result').text("ERROR: " + err.status + " - " + err.statusText);
